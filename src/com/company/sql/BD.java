@@ -1,8 +1,11 @@
 package com.company.sql;
 
+import java.io.File;
+
 public class BD {
     public static final MeuPreparedStatement COMANDO;
-
+    static final String user = "ᖁቺཟౖौل̼";
+    static final String password = "ᣀᕱኜས౺ॏٓ̾";
     static
     {
         MeuPreparedStatement comando = null;
@@ -12,8 +15,8 @@ public class BD {
             comando =
                     new MeuPreparedStatement (
                             "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-                            "jdbc:sqlserver://regulus.cotuca.unicamp.br;databasename=BD22123",
-                            "BD22123", "x2f9V4A5");
+                            "jdbc:sqlserver://regulus.cotuca.unicamp.br;databasename=" + Compressor.Uncompress(user),
+                            Compressor.Uncompress(user), Compressor.Uncompress(password));
         }
         catch (Exception erro)
         {
