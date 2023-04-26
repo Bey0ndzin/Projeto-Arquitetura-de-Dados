@@ -1,4 +1,4 @@
-package com.company.sql;
+package sql;
 
 public class Compressor {
     public static String Uncompress(String txt)

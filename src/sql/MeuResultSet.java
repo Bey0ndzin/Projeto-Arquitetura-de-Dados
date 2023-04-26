@@ -1,4 +1,4 @@
-package com.company.sql;
+package sql;
 
 import java.sql.Array;
 import java.sql.Blob;

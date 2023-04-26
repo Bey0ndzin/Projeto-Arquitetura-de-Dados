@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="sqljdbc4">
+  <library name="jackson-all-1.9.0">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/src/sql/sqljdbc4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/classes/jackson-all-1.9.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

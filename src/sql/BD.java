@@ -1,4 +1,4 @@
-package com.company.sql;
+package sql;
 
 import java.io.File;
 
