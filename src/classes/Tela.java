@@ -1,0 +1,204 @@
+package classes;
+
+import javax.swing.*;
+import javax.swing.plaf.synth.Region;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Tela extends JFrame {
+
+    private JTextField txtNome, txtSexo, txtIdade, txtCep, txtDivida, txtId, txtEstado, txtCidade, txtBairro, txtRua, txtNumCasa;
+    private JTextField txtIdLogin; //txt id da tela de login
+    private int qtaLinhas;
+
+    public Tela(){
+        //classes.Tela principal
+        setVisible(true);
+        setSize(900,650);
+        setTitle("Agiotagem");
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
+        /*TEM QUE MUDAR O ICONE*/
+        
+        //Painel da tela
+        JLabel titulo = new JLabel("Seu app de Agiotagem");
+        titulo.setFont(new Font("Arial", Font.BOLD, 40));
+        titulo.setBounds(220, 50, 450, 100);
+        
+        JButton btnCadastro = new JButton("Cadastrar Devedor"); //cadastro (create)
+        btnCadastro.setBounds(300,250,250,70);
+        btnCadastro.setFont(new Font("Cascadia Code", Font.BOLD, 15));
+        btnCadastro.addActionListener(this::cardCadastro);
+
+        JButton btnLogin = new JButton("Encontrar Devedor"); //login (read, update e delete)
+        btnLogin.setBounds(300, 350, 250, 70);
+        btnLogin.setFont(new Font("Cascadia Code", Font.BOLD, 15));
+        btnLogin.addActionListener(this::cardLogin);
+
+        JPanel painel = new JPanel(new ScrollPaneLayout());
+        //MUDAR O BG PRA UMA IMG
+        painel.add(titulo);
+        painel.add(btnCadastro);
+        painel.add(btnLogin);
+
+        add(painel);
+    }
+
+    public void cardCadastro(ActionEvent actionEvent) {
+        //Card de cadastro
+        JFrame cardCadastro = new JFrame("Cadastro");
+        cardCadastro.setVisible(true);
+        cardCadastro.setSize(600,550);
+        cardCadastro.setLocationRelativeTo(null);
+        cardCadastro.setResizable(false);
+
+        //Campos de dados
+        JLabel lbNome = new JLabel("Nome");
+        lbNome.setBounds(50, 20,200,50);
+        lbNome.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtNome = new JTextField();
+        txtNome.setBounds(110, 20, 390, 50);
+        txtNome.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+
+        JLabel lbSexo = new JLabel("Sexo");
+        lbSexo.setBounds(50, 120,200,50);
+        lbSexo.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtSexo = new JTextField();
+        txtSexo.setBounds(110, 120, 60, 50);
+        txtSexo.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+
+        JLabel lbIdade = new JLabel("Idade");
+        lbIdade.setBounds(45, 220,200,50);
+        lbIdade.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtIdade = new JTextField();
+        txtIdade.setBounds(110, 220, 80, 50);
+        txtIdade.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+
+        JLabel lbCep = new JLabel("Cep");
+        lbCep.setBounds(50, 320,200,50);
+        lbCep.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtCep = new JTextField();
+        txtCep.setBounds(110, 320, 120, 50);
+        txtCep.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+
+        JLabel lbDivida = new JLabel("Divida");
+        lbDivida.setBounds(30, 420,200,50);
+        lbDivida.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtDivida = new JTextField();
+        txtDivida.setBounds(110, 420, 130, 50);
+        txtDivida.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+
+        JLabel lbId = new JLabel("Id");
+        lbId.setBounds(330, 100,200,50);
+        lbId.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtId = new JTextField("-");
+        txtId.setBounds(370, 100, 60, 50);
+        txtId.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtId.setEditable(false);
+
+        JLabel lbEstado = new JLabel("Estado");
+        lbEstado.setBounds(290, 170,200,50);
+        lbEstado.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtEstado = new JTextField("digite um cep válido");
+        txtEstado.setBounds(370, 170, 200, 50);
+        txtEstado.setFont(new Font("Cascadia Code", Font.PLAIN, 12));
+        txtEstado.setEditable(false);
+
+        JLabel lbBairro = new JLabel("Bairro");
+        lbBairro.setBounds(290, 230,200,50);
+        lbBairro.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtBairro = new JTextField("digite um cep válido");
+        txtBairro.setBounds(370, 230, 200, 50);
+        txtBairro.setFont(new Font("Cascadia Code", Font.PLAIN, 12));
+        txtBairro.setEditable(false);
+
+        JLabel lbRua = new JLabel("Rua");
+        lbRua.setBounds(320, 300,200,50);
+        lbRua.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtRua = new JTextField("digite um cep válido");
+        txtRua.setBounds(370, 300, 200, 50);
+        txtRua.setFont(new Font("Cascadia Code", Font.PLAIN, 12));
+        txtRua.setEditable(false);
+
+        JLabel lbNumCasa = new JLabel("Numero da Casa");
+        lbNumCasa.setBounds(300, 370,200,50);
+        lbNumCasa.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtNumCasa = new JTextField();
+        txtNumCasa.setBounds(480, 370, 50, 50);
+        txtNumCasa.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+
+        JButton btnSalvar = new JButton("Salvar");
+        btnSalvar.setBounds(370, 440,170,50);
+        btnSalvar.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        btnSalvar.setEnabled(false);
+
+        //Painel de cadastro
+        JPanel painelCadastro = new JPanel(new ScrollPaneLayout());
+        painelCadastro.add(lbNome);
+        painelCadastro.add(txtNome);
+        painelCadastro.add(lbSexo);
+        painelCadastro.add(txtSexo);
+        painelCadastro.add(lbIdade);
+        painelCadastro.add(txtIdade);
+        painelCadastro.add(lbCep);
+        painelCadastro.add(txtCep);
+        painelCadastro.add(lbDivida);
+        painelCadastro.add(txtDivida);
+
+        painelCadastro.add(lbId);
+        painelCadastro.add(txtId);
+        painelCadastro.add(lbEstado);
+        painelCadastro.add(txtEstado);
+        painelCadastro.add(lbBairro);
+        painelCadastro.add(txtBairro);
+        painelCadastro.add(lbRua);
+        painelCadastro.add(txtRua);
+        painelCadastro.add(lbNumCasa);
+        painelCadastro.add(txtNumCasa);
+
+        painelCadastro.add(btnSalvar);
+
+        cardCadastro.add(painelCadastro);
+    }
+
+    private void cardLogin(ActionEvent actionEvent) {
+        //Card de login
+        JFrame cardLogin = new JFrame("Login");
+        cardLogin.setVisible(true);
+        cardLogin.setSize(965, 600);
+        cardLogin.setLocationRelativeTo(null);
+        cardLogin.setResizable(false);
+
+        qtaLinhas = 200;
+        JTable tabelaDados = new JTable(new DefaultTableModel(qtaLinhas, 10));
+        tabelaDados.setBounds(0,0,750,1000);
+
+        JLabel labelId = new JLabel("Id");
+        labelId.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        labelId.setBounds(765,110,100,50);
+
+        txtIdLogin = new JTextField();
+        txtIdLogin.setBounds(795, 110, 70,50);
+        txtIdLogin.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+
+        JButton btnExcluir = new JButton("Excluir");
+        btnExcluir.setBounds(765, 170, 170, 50);
+
+        JButton btnAtualizar = new JButton("Atualizar");
+        btnAtualizar.setBounds(765, 230, 170, 50);
+
+        JPanel painelTabela = new JPanel(new ScrollPaneLayout());
+        painelTabela.add(tabelaDados );
+        painelTabela.add(labelId);
+        painelTabela.add(txtIdLogin);
+        painelTabela.add(btnExcluir);
+        painelTabela.add(btnAtualizar);
+
+        cardLogin.add(painelTabela);
+    }
+    
+}
