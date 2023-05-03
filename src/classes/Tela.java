@@ -11,8 +11,6 @@ import java.awt.event.ActionListener;
 public class Tela extends JFrame {
 
     private JTextField txtNome, txtSexo, txtIdade, txtCep, txtDivida, txtId, txtEstado, txtCidade, txtBairro, txtRua, txtNumCasa;
-    private JTextField txtIdLogin; //txt id da tela de login
-    private int qtaLinhas;
 
     public Tela(){
         //classes.Tela principal
@@ -165,40 +163,25 @@ public class Tela extends JFrame {
         cardCadastro.add(painelCadastro);
     }
 
+    //card login
+    private static void createGUI(){
+        CardLogin cl = new CardLogin();
+        JScrollPane root = cl.getRootScroolPane();
+        JFrame frame = new JFrame();
+        frame.setContentPane(root);
+        frame.pack();
+        frame.setSize(1200,600);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
     private void cardLogin(ActionEvent actionEvent) {
-        //Card de login
-        JFrame cardLogin = new JFrame("Login");
-        cardLogin.setVisible(true);
-        cardLogin.setSize(965, 600);
-        cardLogin.setLocationRelativeTo(null);
-        cardLogin.setResizable(false);
-
-        qtaLinhas = 200;
-        JTable tabelaDados = new JTable(new DefaultTableModel(qtaLinhas, 10));
-        tabelaDados.setBounds(0,0,750,1000);
-
-        JLabel labelId = new JLabel("Id");
-        labelId.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        labelId.setBounds(765,110,100,50);
-
-        txtIdLogin = new JTextField();
-        txtIdLogin.setBounds(795, 110, 70,50);
-        txtIdLogin.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-
-        JButton btnExcluir = new JButton("Excluir");
-        btnExcluir.setBounds(765, 170, 170, 50);
-
-        JButton btnAtualizar = new JButton("Atualizar");
-        btnAtualizar.setBounds(765, 230, 170, 50);
-
-        JPanel painelTabela = new JPanel(new ScrollPaneLayout());
-        painelTabela.add(tabelaDados );
-        painelTabela.add(labelId);
-        painelTabela.add(txtIdLogin);
-        painelTabela.add(btnExcluir);
-        painelTabela.add(btnAtualizar);
-
-        cardLogin.add(painelTabela);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                createGUI();
+            }
+        });
     }
     
 }
