@@ -1,16 +1,22 @@
 package classes;
 
+import sql.MeuResultSet;
+
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.plaf.synth.Region;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Tela extends JFrame {
 
-    private JTextField txtNome, txtSexo, txtIdade, txtCep, txtDivida, txtId, txtEstado, txtCidade, txtBairro, txtRua, txtNumCasa;
+    private JTextField txtNome, txtSexo, txtIdade, txtCep, txtDivida, txtId, txtEstado, txtCidade, txtRua, txtNumCasa;
+    public ArrayList<Devedor> Devs = new ArrayList<Devedor>();
 
     public Tela(){
         //classes.Tela principal
@@ -82,6 +88,40 @@ public class Tela extends JFrame {
         txtCep = new JTextField();
         txtCep.setBounds(110, 320, 120, 50);
         txtCep.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtCep.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String cep = txtCep.getText();
+                if(cep.length() == 8)
+                {
+                    try{
+                        Logradouro logradouro = (Logradouro)ClienteWS.getObjeto(Logradouro.class, "https://api.postmon.com.br/v1/cep", cep);
+                        txtCidade.setText(logradouro.getCidade());
+                        txtEstado.setText(logradouro.getEstado());
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String cep = txtCep.getText();
+                if(cep.length() == 8)
+                {
+                    try{
+                        Logradouro logradouro = (Logradouro)ClienteWS.getObjeto(Logradouro.class, "https://api.postmon.com.br/v1/cep", cep);
+                        txtCidade.setText(logradouro.getCidade());
+                        txtEstado.setText(logradouro.getEstado());
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) { }
+        });
 
         JLabel lbDivida = new JLabel("Divida");
         lbDivida.setBounds(30, 420,200,50);
@@ -106,21 +146,20 @@ public class Tela extends JFrame {
         txtEstado.setFont(new Font("Cascadia Code", Font.PLAIN, 12));
         txtEstado.setEditable(false);
 
-        JLabel lbBairro = new JLabel("Bairro");
-        lbBairro.setBounds(290, 230,200,50);
-        lbBairro.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        txtBairro = new JTextField("digite um cep válido");
-        txtBairro.setBounds(370, 230, 200, 50);
-        txtBairro.setFont(new Font("Cascadia Code", Font.PLAIN, 12));
-        txtBairro.setEditable(false);
+        JLabel lbCidade = new JLabel("Cidade");
+        lbCidade.setBounds(290, 230,200,50);
+        lbCidade.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
+        txtCidade = new JTextField("digite um cep válido");
+        txtCidade.setBounds(370, 230, 200, 50);
+        txtCidade.setFont(new Font("Cascadia Code", Font.PLAIN, 12));
+        txtCidade.setEditable(false);
 
         JLabel lbRua = new JLabel("Rua");
         lbRua.setBounds(320, 300,200,50);
         lbRua.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        txtRua = new JTextField("digite um cep válido");
+        txtRua = new JTextField();
         txtRua.setBounds(370, 300, 200, 50);
         txtRua.setFont(new Font("Cascadia Code", Font.PLAIN, 12));
-        txtRua.setEditable(false);
 
         JLabel lbNumCasa = new JLabel("Numero da Casa");
         lbNumCasa.setBounds(300, 370,200,50);
@@ -133,6 +172,7 @@ public class Tela extends JFrame {
         btnSalvar.setBounds(370, 440,170,50);
         btnSalvar.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
         btnSalvar.setEnabled(false);
+        btnSalvar.addActionListener(this::Cadastrar);
 
         //Painel de cadastro
         JPanel painelCadastro = new JPanel(new ScrollPaneLayout());
@@ -151,8 +191,8 @@ public class Tela extends JFrame {
         painelCadastro.add(txtId);
         painelCadastro.add(lbEstado);
         painelCadastro.add(txtEstado);
-        painelCadastro.add(lbBairro);
-        painelCadastro.add(txtBairro);
+        painelCadastro.add(lbCidade);
+        painelCadastro.add(txtCidade);
         painelCadastro.add(lbRua);
         painelCadastro.add(txtRua);
         painelCadastro.add(lbNumCasa);
@@ -161,6 +201,31 @@ public class Tela extends JFrame {
         painelCadastro.add(btnSalvar);
 
         cardCadastro.add(painelCadastro);
+    }
+
+    private void Cadastrar(ActionEvent actionEvent){
+        int id = 0;
+        try{
+            var devedores = Devedores.getDevedores();
+
+            while(devedores.next())
+                Devs.add(new Devedor(devedores.getInt(1), devedores.getInt(2), devedores.getString(3),
+                        devedores.getString(4), devedores.getString(5), devedores.getFloat(6)));
+
+            for(Devedor dev : Devs)
+                id++;
+
+            Devedor novoDevedor = new Devedor(id, Integer.parseInt(txtIdade.getText()), txtNome.getText(),
+                                                txtSexo.getText(), txtCep.getText(), Float.parseFloat(txtDivida.getText()));
+
+            Devedores.incluir(novoDevedor);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    private void Alterar(ActionEvent actionEvent){
+
     }
 
     //card login

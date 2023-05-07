@@ -120,7 +120,7 @@ public class Devedores {
         }
     }
 
-    public static Devedor getDesenvolvedor(int idDevedor) throws Exception {
+    public static Devedor getDevedor(int idDevedor) throws Exception {
         Devedor devedor = null;
 
         try {
@@ -154,7 +154,7 @@ public class Devedores {
         return devedor;
     }
 
-    public static MeuResultSet getDesenvolvedores() throws Exception {
+    public static MeuResultSet getDevedores() throws Exception {
         MeuResultSet resultado = null;
 
         try {
