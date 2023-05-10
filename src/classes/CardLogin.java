@@ -2,7 +2,6 @@ package classes;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import java.util.ArrayList;
 
 public class CardLogin {
@@ -13,6 +12,7 @@ public class CardLogin {
     private JPanel loginPainel;
     private JButton btnAchar;
     private JTextField txtId;
+    private JButton btnExcluir;
 
     public JPanel getPanel(){
         return loginPainel;
@@ -32,7 +32,7 @@ public class CardLogin {
         for (Devedor dev : Devs) {
             Logradouro logradouro = (Logradouro) ClienteWS.getObjeto(Logradouro.class, "https://api.postmon.com.br/v1/cep", dev.getCep());
             if (logradouro != null) {
-                modelo.addRow(new Object[]{dev.getDivida(), dev.getNome(),
+                modelo.addRow(new Object[]{dev.getIdDevedor(),dev.getDivida(), dev.getNome(),
                         dev.getSexo(), dev.getIdade(), dev.getCep(),
                         logradouro.getEstado(), logradouro.getCidade(), logradouro.getLogradouro()});
             }
