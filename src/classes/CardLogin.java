@@ -19,7 +19,7 @@ public class CardLogin {
     }
 
     public void createTable() throws Exception {
-        tbClientes.setModel(new DefaultTableModel(null, new String[]{"Divida", "Nome", "Sexo", "Idade",
+        tbClientes.setModel(new DefaultTableModel(null, new String[]{"Id","Divida", "Nome", "Sexo", "Idade",
                 "CEP", "Estado", "Cidade", "Rua"}));
 
         var devedores = Devedores.getDevedores();
@@ -39,9 +39,7 @@ public class CardLogin {
         }
     }
     public CardLogin() throws Exception {
-
         createTable();
-
     }
 
 }
