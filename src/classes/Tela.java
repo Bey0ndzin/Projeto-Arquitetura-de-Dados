@@ -178,13 +178,6 @@ public class Tela extends JFrame {
         txtRua.setFont(new Font("Cascadia Code", Font.PLAIN, 12));
         txtRua.setEditable(false);
 
-        JLabel lbNumCasa = new JLabel("Numero da Casa");
-        lbNumCasa.setBounds(300, 370,200,50);
-        lbNumCasa.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        txtNumCasa = new JTextField();
-        txtNumCasa.setBounds(480, 370, 50, 50);
-        txtNumCasa.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.setBounds(370, 440,170,50);
         btnSalvar.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
@@ -211,8 +204,6 @@ public class Tela extends JFrame {
         painelCadastro.add(txtCidade);
         painelCadastro.add(lbRua);
         painelCadastro.add(txtRua);
-        painelCadastro.add(lbNumCasa);
-        painelCadastro.add(txtNumCasa);
 
         painelCadastro.add(btnSalvar);
 

@@ -11,6 +11,8 @@ public class CardLogin {
     private JTable tbClientes;
     public ArrayList<Devedor> Devs = new ArrayList<Devedor>();
     private JPanel loginPainel;
+    private JButton btnAchar;
+    private JTextField txtId;
 
     public JPanel getPanel(){
         return loginPainel;
