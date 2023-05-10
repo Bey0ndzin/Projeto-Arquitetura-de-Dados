@@ -11,12 +11,13 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 public class Tela extends JFrame {
 
     private JTextField txtNome, txtSexo, txtIdade, txtCep, txtDivida, txtId, txtEstado, txtCidade, txtRua, txtNumCasa;
-    public ArrayList<Devedor> Devs = new ArrayList<Devedor>();
 
     public Tela(){
         //classes.Tela principal
@@ -78,14 +79,14 @@ public class Tela extends JFrame {
         JLabel lbIdade = new JLabel("Idade");
         lbIdade.setBounds(45, 220,200,50);
         lbIdade.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        txtIdade = new JTextField();
+        txtIdade = new JTextField("0");
         txtIdade.setBounds(110, 220, 80, 50);
         txtIdade.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
 
         JLabel lbCep = new JLabel("Cep");
         lbCep.setBounds(50, 320,200,50);
         lbCep.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        txtCep = new JTextField();
+        txtCep = new JTextField("0");
         txtCep.setBounds(110, 320, 120, 50);
         txtCep.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
         txtCep.getDocument().addDocumentListener(new DocumentListener() {
@@ -96,8 +97,15 @@ public class Tela extends JFrame {
                 {
                     try{
                         Logradouro logradouro = (Logradouro)ClienteWS.getObjeto(Logradouro.class, "https://api.postmon.com.br/v1/cep", cep);
-                        txtCidade.setText(logradouro.getCidade());
-                        txtEstado.setText(logradouro.getEstado());
+                        if(logradouro != null)
+                        {
+                            txtCidade.setText(logradouro.getCidade());
+                            txtEstado.setText(logradouro.getEstado());
+                            txtRua.setText(logradouro.getLogradouro());
+                        }
+                        else{
+                            txtCep.setText("");
+                        }
                     }catch(Exception ex){
                         ex.printStackTrace();
                     }
@@ -111,8 +119,16 @@ public class Tela extends JFrame {
                 {
                     try{
                         Logradouro logradouro = (Logradouro)ClienteWS.getObjeto(Logradouro.class, "https://api.postmon.com.br/v1/cep", cep);
-                        txtCidade.setText(logradouro.getCidade());
-                        txtEstado.setText(logradouro.getEstado());
+                        if(logradouro != null)
+                        {
+                            txtCidade.setText(logradouro.getCidade());
+                            txtEstado.setText(logradouro.getEstado());
+                            txtRua.setText(logradouro.getLogradouro());
+                        }
+                        else
+                        {
+                            txtCep.setText("");
+                        }
                     }catch(Exception ex){
                         ex.printStackTrace();
                     }
@@ -126,7 +142,7 @@ public class Tela extends JFrame {
         JLabel lbDivida = new JLabel("Divida");
         lbDivida.setBounds(30, 420,200,50);
         lbDivida.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        txtDivida = new JTextField();
+        txtDivida = new JTextField("0");
         txtDivida.setBounds(110, 420, 130, 50);
         txtDivida.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
 
@@ -157,9 +173,10 @@ public class Tela extends JFrame {
         JLabel lbRua = new JLabel("Rua");
         lbRua.setBounds(320, 300,200,50);
         lbRua.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        txtRua = new JTextField();
+        txtRua = new JTextField("digite um cep válido");
         txtRua.setBounds(370, 300, 200, 50);
         txtRua.setFont(new Font("Cascadia Code", Font.PLAIN, 12));
+        txtRua.setEditable(false);
 
         JLabel lbNumCasa = new JLabel("Numero da Casa");
         lbNumCasa.setBounds(300, 370,200,50);
@@ -171,7 +188,6 @@ public class Tela extends JFrame {
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.setBounds(370, 440,170,50);
         btnSalvar.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        btnSalvar.setEnabled(false);
         btnSalvar.addActionListener(this::Cadastrar);
 
         //Painel de cadastro
@@ -204,24 +220,14 @@ public class Tela extends JFrame {
     }
 
     private void Cadastrar(ActionEvent actionEvent){
-        int id = 0;
+
         try{
-            var devedores = Devedores.getDevedores();
-
-            while(devedores.next())
-                Devs.add(new Devedor(devedores.getInt(1), devedores.getInt(2), devedores.getString(3),
-                        devedores.getString(4), devedores.getString(5), devedores.getFloat(6)));
-
-            for(Devedor dev : Devs)
-                id++;
-
-            Devedor novoDevedor = new Devedor(id, Integer.parseInt(txtIdade.getText()), txtNome.getText(),
-                                                txtSexo.getText(), txtCep.getText(), Float.parseFloat(txtDivida.getText()));
+            Devedor novoDevedor = new Devedor(Integer.parseInt(txtIdade.getText()), txtNome.getText(), txtSexo.getText(), txtCep.getText(), Float.parseFloat(txtDivida.getText()));
 
             Devedores.incluir(novoDevedor);
 
         }catch (Exception e){
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
     private void Alterar(ActionEvent actionEvent){
@@ -229,7 +235,7 @@ public class Tela extends JFrame {
     }
 
     //card login
-    private static void createGUI(){
+    private static void createGUI() throws Exception {
         CardLogin cl = new CardLogin();
         JScrollPane root = cl.getRootScroolPane();
         JFrame frame = new JFrame();
@@ -244,9 +250,12 @@ public class Tela extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                createGUI();
+                try {
+                    createGUI();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
-    
 }

@@ -3,6 +3,7 @@ package classes;
 import sql.BD;
 import sql.MeuResultSet;
 
+import javax.swing.*;
 import java.sql.SQLException;
 
 public class Devedores {
@@ -38,24 +39,24 @@ public class Devedores {
         try {
             String sql;
             sql = "INSERT INTO AGIOTA.DEVEDORES " +
-                    "(IDDEVEDORES,IDADE,NOME,SEXO,CEP,DIVIDA) " +
+                    "(IDADE,NOME,SEXO,CEP,DIVIDA) " +
                     "VALUES " +
-                    "(?,?,?,?,?,?)";
+                    "(?,?,?,?,?)";
 
             BD.COMANDO.prepareStatement(sql);
 
-            BD.COMANDO.setInt(1, devedor.getIdDevedor());
-            BD.COMANDO.setInt(2, devedor.getIdade());
-            BD.COMANDO.setString(3, devedor.getNome());
-            BD.COMANDO.setString(4, devedor.getNome());
-            BD.COMANDO.setString(5, devedor.getSexo());
-            BD.COMANDO.setFloat(6, devedor.getDivida());
+            BD.COMANDO.setInt(1, devedor.getIdade());
+            BD.COMANDO.setString(2, devedor.getNome());
+            BD.COMANDO.setString(3, devedor.getSexo());
+            BD.COMANDO.setString(4, devedor.getCep());
+            BD.COMANDO.setFloat(5, devedor.getDivida());
 
             BD.COMANDO.executeUpdate();
             BD.COMANDO.commit();
         } catch (SQLException erro) {
             BD.COMANDO.rollback();
-            throw new Exception("Erro ao inserir devedor.");
+            throw new Exception(erro.getMessage());
+            //throw new Exception("Erro ao inserir devedor.");
         }
     }
 
@@ -127,7 +128,7 @@ public class Devedores {
             String sql;
 
             sql = "SELECT * " +
-                    "FROM AGIOTA.DEVEDOR " +
+                    "FROM AGIOTA.DEVEDORES " +
                     "WHERE IDDEVEDOR = ?";
 
             BD.COMANDO.prepareStatement(sql);
@@ -140,7 +141,6 @@ public class Devedores {
                 throw new Exception("Nao cadastrado");
 
             devedor = new Devedor(
-                    resultado.getInt("idDevedores"),
                     resultado.getInt("idade"),
                     resultado.getString("nome"),
                     resultado.getString("sexo"),
@@ -161,7 +161,7 @@ public class Devedores {
             String sql;
 
             sql = "SELECT * " +
-                    "FROM AGIOTA.IDDEVEDOR";
+                    "FROM AGIOTA.DEVEDORES";
 
             BD.COMANDO.prepareStatement(sql);
 

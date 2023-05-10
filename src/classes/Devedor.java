@@ -6,8 +6,7 @@ public class Devedor {
     String nome, sexo, cep;
     float divida;
 
-    public Devedor(int idDevedor, int idade, String nome, String sexo, String cep, float divida) throws Exception {
-        this.setIdDevedor(idDevedor);
+    public Devedor(int idade, String nome, String sexo, String cep, float divida) throws Exception {
         this.setIdade(idade);
         this.setNome(nome);
         this.setSexo(sexo);
@@ -70,7 +69,7 @@ public class Devedor {
     }
 
     public void setDivida(float novaDivida) throws Exception {
-        if (divida <= 0)
+        if (novaDivida <= 0)
             throw new Exception("Divida inválida");
         this.divida = novaDivida;
     }
