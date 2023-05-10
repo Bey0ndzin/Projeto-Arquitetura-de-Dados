@@ -7,15 +7,13 @@ import java.util.ArrayList;
 
 public class CardLogin {
     private JScrollPane spArea;
-    private JLabel lbIdCliente;
-    private JTextField txtIdCliente;
     private JButton atualizarButton;
-    private JButton btnAcharCliente;
     private JTable tbClientes;
     public ArrayList<Devedor> Devs = new ArrayList<Devedor>();
+    private JPanel loginPainel;
 
-    public JScrollPane getRootScroolPane(){
-        return spArea;
+    public JPanel getPanel(){
+        return loginPainel;
     }
 
     public void createTable() throws Exception{
@@ -41,6 +39,9 @@ public class CardLogin {
                         logradouro.getEstado(), logradouro.getCidade(), logradouro.getLogradouro()});
             }
         }
+    public void createTable(){
+        tbClientes.setModel(new DefaultTableModel(null, new String[] {"Divida", "Nome", "Sexo", "Idade",
+                "CEP", "Estado", "Cidade", "Rua"}));
     }
 
     public CardLogin() throws Exception {
