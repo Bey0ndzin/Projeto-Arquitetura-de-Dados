@@ -231,9 +231,9 @@ public class Tela extends JFrame {
     //card login
     private static void createGUI(){
         CardLogin cl = new CardLogin();
-        JScrollPane root = cl.getRootScroolPane();
+        JPanel root = cl.getPanel();
         JFrame frame = new JFrame();
-        frame.setContentPane(root);
+        frame.add(root);
         frame.pack();
         frame.setSize(1200,600);
         frame.setResizable(false);
