@@ -8,6 +8,8 @@ public class CardLogin {
     private JButton atualizarButton;
     private JTable tbClientes;
     private JPanel loginPainel;
+    private JButton btnAchar;
+    private JTextField txtId;
 
     public JPanel getPanel(){
         return loginPainel;
@@ -15,7 +17,7 @@ public class CardLogin {
 
     public void createTable(){
         tbClientes.setModel(new DefaultTableModel(null, new String[] {"Divida", "Nome", "Sexo", "Idade",
-                "CEP", "Estado", "Cidade", "Rua", "Num Casa" }));
+                "CEP", "Estado", "Cidade", "Rua"}));
     }
 
     public CardLogin(){
