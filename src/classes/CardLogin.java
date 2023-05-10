@@ -18,34 +18,26 @@ public class CardLogin {
         return loginPainel;
     }
 
-    public void createTable() throws Exception{
-        tbClientes.setModel(new DefaultTableModel(null, new String[] {"Id", "Divida", "Nome", "Sexo", "Idade",
-                "CEP", "Estado", "Cidade", "Bairro", "Rua", "Num Casa" }));
+    public void createTable() throws Exception {
+        tbClientes.setModel(new DefaultTableModel(null, new String[]{"Divida", "Nome", "Sexo", "Idade",
+                "CEP", "Estado", "Cidade", "Rua"}));
 
         var devedores = Devedores.getDevedores();
 
-        while(devedores.next())
-        {
-            Devs.add(new Devedor(devedores.getInt(2), devedores.getString(3), devedores.getString(4), devedores.getString(5),devedores.getFloat(6)));
+        while (devedores.next()) {
+            Devs.add(new Devedor(devedores.getInt(2), devedores.getString(3), devedores.getString(4), devedores.getString(5), devedores.getFloat(6)));
         }
 
         DefaultTableModel modelo = (DefaultTableModel) tbClientes.getModel();
-        for(Devedor dev : Devs)
-        {
-            System.out.println(dev.getCep());
-            Logradouro logradouro = (Logradouro)ClienteWS.getObjeto(Logradouro.class, "https://api.postmon.com.br/v1/cep", dev.getCep());
-            if(logradouro != null)
-            {
-                modelo.addRow(new Object[]{dev.getIdDevedor(), dev.getDivida(), dev.getNome(),
+        for (Devedor dev : Devs) {
+            Logradouro logradouro = (Logradouro) ClienteWS.getObjeto(Logradouro.class, "https://api.postmon.com.br/v1/cep", dev.getCep());
+            if (logradouro != null) {
+                modelo.addRow(new Object[]{dev.getDivida(), dev.getNome(),
                         dev.getSexo(), dev.getIdade(), dev.getCep(),
                         logradouro.getEstado(), logradouro.getCidade(), logradouro.getLogradouro()});
             }
         }
-    public void createTable(){
-        tbClientes.setModel(new DefaultTableModel(null, new String[] {"Divida", "Nome", "Sexo", "Idade",
-                "CEP", "Estado", "Cidade", "Rua"}));
     }
-
     public CardLogin() throws Exception {
 
         createTable();
