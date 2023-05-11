@@ -95,12 +95,12 @@ public class Devedores {
             String sql;
 
             sql = "UPDATE AGIOTA.DEVEDORES " +
-                    "idade=?," +
-                    "nome=?," +
-                    "sexo=?," +
-                    "cep=?," +
-                    "divida=?" +
-                    " WHERE idDevedores=?";
+                    "SET IDADE=?, " +
+                    "NOME=?, " +
+                    "SEXO=?, " +
+                    "CEP=?, " +
+                    "DIVIDA=? " +
+                    "WHERE IDDEVEDORES = ?";
             // (IDDEVEDOR,IDADE,NOME,SEXO,CEP,DIVIDA)
 
             BD.COMANDO.prepareStatement(sql);
@@ -129,16 +129,14 @@ public class Devedores {
 
             sql = "SELECT * " +
                     "FROM AGIOTA.DEVEDORES " +
-                    "WHERE IDDEVEDOR = "+idDevedor;
+                    "WHERE IDDEVEDORES = ?";
 
             BD.COMANDO.prepareStatement(sql);
 
-            //BD.COMANDO.setInt(1, idDevedor);
-            System.out.println(sql);
+            BD.COMANDO.setInt(1, idDevedor);
 
             MeuResultSet resultado = (MeuResultSet) BD.COMANDO.executeQuery();
 
-            System.out.println("t");
 
             if (!resultado.first())
                 throw new Exception("Nao cadastrado");
@@ -150,11 +148,9 @@ public class Devedores {
                     resultado.getString("cep"),
                     resultado.getFloat("divida")
             );
-            System.out.println("t33");
         } catch (SQLException erro) {
             throw new Exception("Erro ao procurar devedor");
         }
-        System.out.println("t544");
         return devedor;
     }
 

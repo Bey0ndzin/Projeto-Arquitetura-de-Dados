@@ -17,7 +17,8 @@ import java.util.ArrayList;
 
 public class Tela extends JFrame {
 
-    private JTextField txtNome, txtSexo, txtIdade, txtCep, txtDivida, txtId, txtEstado, txtCidade, txtRua, txtNumCasa;
+    private JTextField txtNome, txtIdade, txtCep, txtDivida, txtId, txtEstado, txtCidade, txtRua, txtNumCasa;
+    private JComboBox txtSexo;
 
     public Tela(){
         //classes.Tela principal
@@ -72,7 +73,8 @@ public class Tela extends JFrame {
         JLabel lbSexo = new JLabel("Sexo");
         lbSexo.setBounds(50, 120,200,50);
         lbSexo.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
-        txtSexo = new JTextField();
+        String sexo[] = {"M", "F"};
+        txtSexo = new JComboBox<>(sexo);
         txtSexo.setBounds(110, 120, 60, 50);
         txtSexo.setFont(new Font("Cascadia Code", Font.PLAIN, 20));
 
@@ -213,7 +215,7 @@ public class Tela extends JFrame {
     private void Cadastrar(ActionEvent actionEvent){
 
         try{
-            Devedor novoDevedor = new Devedor(Integer.parseInt(txtIdade.getText()), txtNome.getText(), txtSexo.getText(), txtCep.getText(), Float.parseFloat(txtDivida.getText()));
+            Devedor novoDevedor = new Devedor(Integer.parseInt(txtIdade.getText()), txtNome.getText(), txtSexo.getSelectedItem().toString(), txtCep.getText(), Float.parseFloat(txtDivida.getText()));
 
             Devedores.incluir(novoDevedor);
 
